@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type"	content="text/html;charset=utf-8">
+		<script type="text/javascript">
+			function fun1() {
+				document.getElementById("content").innerHTML += "<br\>java调用了js函数fun1";
+			}
+
+			function fun2(arg) {
+				document.getElementById("content").innerHTML += ("<br\>" + "java调用了js函数fun2，并传参：" + arg);
+			}
+		</script>
+	</head>
+	<body>
+		HTML标题
+		<br/>
+		<a onClick="window.zoe.startFunction()">调用java函数</a>
+		<br/>
+		<a onClick="window.zoe.startFunction('hello java')">调用java函数并传递参数</a>
+		<br/>
+		<div id="content">
+			这里是内容
+		</div>
+	</body>
+</html>
