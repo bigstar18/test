@@ -4,7 +4,7 @@
 /**  
 * @Description: 正则处理工具   
 */
-package org.test.crawler.utils;
+package org.hxx.crawler.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

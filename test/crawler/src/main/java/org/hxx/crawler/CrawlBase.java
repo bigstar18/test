@@ -4,7 +4,7 @@
 /**  
 *@Description: 获取网页信息基类
 */
-package org.test.crawler;
+package org.hxx.crawler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,8 +59,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.CharsetUtils;
 import org.apache.http.util.EntityUtils;
-import org.test.crawler.utils.DoRegex;
-import org.test.crawler.utils.InstallCert;
+import org.hxx.crawler.utils.DoRegex;
+import org.hxx.crawler.utils.InstallCert;
 
 public abstract class CrawlBase {
 	private static HttpRequestRetryHandler myRetryHandler = new HttpRequestRetryHandler() {

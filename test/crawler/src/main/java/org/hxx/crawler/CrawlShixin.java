@@ -1,5 +1,5 @@
 
-package org.test.crawler;
+package org.hxx.crawler;
 
 public class CrawlShixin extends CrawlBase {
 

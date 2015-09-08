@@ -4,13 +4,13 @@
 /**  
  *@Description: 获取页面链接地址信息基类  
 */
-package org.test.crawler;
+package org.hxx.crawler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.test.crawler.utils.DoRegex;
+import org.hxx.crawler.utils.DoRegex;
 
 public abstract class CrawlListPageBase extends CrawlBase {
 	private String pageurl;

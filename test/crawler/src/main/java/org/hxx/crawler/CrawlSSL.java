@@ -1,7 +1,7 @@
 
-package org.test.crawler;
+package org.hxx.crawler;
 
-import org.test.crawler.utils.InstallCert;
+import org.hxx.crawler.utils.InstallCert;
 
 public class CrawlSSL extends CrawlBase {
 	public static void main(String[] args) throws Exception {

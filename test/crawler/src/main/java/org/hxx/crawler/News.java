@@ -4,7 +4,7 @@
 /**  
 *@Description:   新闻类网站新闻内容 
 */
-package org.test.crawler;
+package org.hxx.crawler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpException;
-import org.test.crawler.utils.DoRegex;
+import org.hxx.crawler.utils.DoRegex;
 
 public class News extends CrawlBase {
 	/**

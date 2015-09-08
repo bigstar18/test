@@ -1,4 +1,4 @@
-package org.test.crawler.utils;
+package org.hxx.crawler.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

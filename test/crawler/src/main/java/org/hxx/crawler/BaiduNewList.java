@@ -4,7 +4,7 @@
 /**  
 *@Description:   百度新闻滚动列表页，可以获取当前页面上的链接
 */
-package org.test.crawler;
+package org.hxx.crawler;
 
 import java.io.IOException;
 import java.util.HashMap;
