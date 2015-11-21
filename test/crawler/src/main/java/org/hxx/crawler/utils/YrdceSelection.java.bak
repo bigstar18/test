@@ -1,0 +1,135 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Stack;
+
+public class YrdceSelection {
+
+	private int a;// 实际货物
+	private int b;// 货物需求量
+	private Stack<String> stNum = new Stack<String>();
+	List<Integer> liResult = new ArrayList<Integer>();// 摇号结果（全号）
+	private Map<Integer, Integer> mapRandom = new HashMap<Integer, Integer>();// 记录摇号结果（尾号）
+
+	public YrdceSelection(int numHave, int numNeed) {
+		this.a = numHave;
+		this.b = numNeed;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		YrdceSelection y = new YrdceSelection(100000, 5500000);
+		Map<Integer, Integer> test = y.mainSelection();
+		y.selectionAll();
+		for (int i = 0; i < y.liResult.size(); i++) {
+			System.out.println(y.liResult.get(i));
+		}
+
+		for (Map.Entry<Integer, Integer> entry : test.entrySet()) {
+
+			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+
+		}
+		System.out.println("号码数：" + y.liResult.size());
+
+	}
+
+	// 摇号对外开放接口
+	public Map<Integer, Integer> mainSelection() {
+		split();
+		selection();
+		return mapRandom;
+	}
+
+	// 初始化处理实际货物
+	private void split() {
+		if (a > b) {
+			return;
+		}
+		String strA = String.valueOf(a);
+		for (int i = 0; i < strA.length(); i++) {
+			int zer = strA.length() - i;
+			String str = strA.substring(i, i + 1);
+			if (!str.equals("0")) {
+				for (int j = 1; j < zer; j++) {
+					str += "0";
+				}
+				stNum.push(str);
+			}
+		}
+	}
+
+	// 分子不能整除处理
+	private void split(int num) {
+		int re = b % num;
+		stNum.push(String.valueOf(re));
+		stNum.push(String.valueOf(num - re));
+	}
+
+	// 生成尾号
+	private void selectionEnd(int num) {
+		String strHead = String.valueOf(num);
+		int head = Integer.parseInt(strHead.substring(0, 1));
+		Random random = new Random();
+
+		int rm = 0;
+		int map = 1;
+		if (strHead.length() - 1 > 0) {
+			map = (int) Math.pow(10, strHead.length() - 1);
+			rm = (b / map);
+		} else {
+			rm = b;
+		}
+		int result;
+		while (true) {
+			result = random.nextInt(rm);
+			if (!mapRandom.containsKey(result)) {
+
+				break;
+			}
+		}
+		for (int i = 0; i < head; i++) {
+			result += b / num;
+			result = result % (b / map);
+			mapRandom.put(result, num);
+		}
+	}
+
+	// 全号
+	private void selectionAll() {
+		for (Map.Entry<Integer, Integer> entry : mapRandom.entrySet()) {
+			String value = String.valueOf(entry.getValue());
+			if (value.length() - 1 > 0) {
+				int count = (int) Math.pow(10, value.length() - 1);
+				for (int i = 0; i < count; i++) {
+					liResult.add(i * (b / count) + entry.getKey());
+				}
+			} else {
+				liResult.add(entry.getKey());
+			}
+
+		}
+
+	}
+
+	// 摇号
+	private void selection() {
+		while (true) {
+			if (stNum.size() == 0) {
+				return;
+			}
+			String test = stNum.pop();
+			int num = Integer.parseInt(test);
+			int remainder = b % num;
+			if (remainder == 0) {
+				selectionEnd(num);
+			} else {
+				split(num);
+			}
+		}
+
+	}
+
+}

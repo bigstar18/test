@@ -1,0 +1,113 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Stack;
+
+public class Selection1 {
+
+	private int g_numHave;// 实际拥有货物数量
+	private int g_numBuy;// 货物需求量
+	private Stack<Integer> g_stackNumSplit = new Stack<Integer>();// 存放拆分数字 （等待摇号）
+	private List<Integer> g_listResultNum = new ArrayList<Integer>();// 摇号结果（全号）
+	private Map<Integer, Integer> g_mapRdEndNum = new HashMap<Integer, Integer>();// 记录尾号号结果）
+
+	public Selection1(int c_numHave, int c_numNeed) {
+		this.g_numHave = c_numHave;
+		this.g_numBuy = c_numNeed;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Selection1 selection = new Selection1(22985, 1000000);
+		Map<Integer, Integer> test = selection.fnMainSelection();
+		selection.fnResultNum();
+		for (int i = 0; i < selection.g_listResultNum.size(); i++) {
+			System.out.println(selection.g_listResultNum.get(i));
+		}
+		System.out.println("尾号：");
+		for (Map.Entry<Integer, Integer> entry : test.entrySet()) {
+			System.out.println("尾号数： " + entry.getKey() + ", 对应全号个数：" + entry.getValue());
+		}
+		System.out.println("号码数：" + selection.g_listResultNum.size());
+	}
+
+	// 摇号对外开放接口
+	public Map<Integer, Integer> fnMainSelection() {
+		split();
+		fnSelection();
+		return g_mapRdEndNum;
+	}
+
+	// 初始化处理实际货物
+	private void split() {
+		if (g_numHave > g_numBuy) {
+			return;
+		}
+		String strNumHave = String.valueOf(g_numHave);
+		int c_iHeadNum = 0;
+		for (int i = 0; i < strNumHave.length(); i++) {
+			int zero = strNumHave.length() - i - 1;
+			String strHeadNum = strNumHave.substring(i, i + 1);
+			if (!strHeadNum.equals("0")) {
+				c_iHeadNum = Integer.parseInt(strHeadNum) * (int) Math.pow(10, zero);
+				g_stackNumSplit.push(c_iHeadNum);
+			}
+		}
+	}
+
+	// 分子不能整除处理
+	private void fnSplitNum(int num) {
+		for (int i = num / 2; i >= 1; i--) {
+			if (g_numBuy % i == 0) {
+				g_stackNumSplit.push(i);
+				g_stackNumSplit.push(num - i);
+				return;
+			}
+		}
+	}
+
+	// 生成尾号 方法2
+	private void fnRdEndNum(int num) {
+		Random random = new Random();
+		int result;
+		while (true) {
+			result = random.nextInt(g_numBuy / num);
+			if (!g_mapRdEndNum.containsKey(result)) {
+				break;
+			}
+		}
+		g_mapRdEndNum.put(result, num);
+	}
+
+	// 全号
+	private void fnResultNum() {
+		for (Map.Entry<Integer, Integer> entry : g_mapRdEndNum.entrySet()) {
+			for (int i = 0; i < entry.getValue(); i++) {
+				int m_fullNum = i * (g_numBuy / entry.getValue()) + entry.getKey();
+				if (!g_listResultNum.contains(m_fullNum)) {
+					g_listResultNum.add(m_fullNum);
+				}
+			}
+		}
+	}
+
+	// 摇号
+	private void fnSelection() {
+		while (true) {
+			if (g_stackNumSplit.size() == 0) {
+				return;
+			}
+			int num = g_stackNumSplit.pop();
+			int remainder = g_numBuy % num;
+			if (remainder == 0) {
+				fnRdEndNum(num);
+			} else {
+				fnSplitNum(num);
+			}
+		}
+
+	}
+
+}
